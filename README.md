@@ -354,6 +354,47 @@ Il s'agit d'un diagramme fondamental, car il sert de base a la comprehension glo
 
 Dans le cadre du projet academique, ce diagramme joue aussi un role methodologique fort : il traduit la conceptualisation du probleme avant son implementation, puis sert de support a la generation de l'application via BESSER.
 
+#### Explication des cardinalites du diagramme de classe
+
+Les cardinalites indiquent combien d'instances d'une classe peuvent etre associees a combien d'instances d'une autre classe. Elles sont essentielles pour comprendre les contraintes structurelles du modele.
+
+Voici l'interpretation des cardinalites definies dans le code UML :
+
+- `Gestionnaire "1" --> "1..*" CentreDeCongres` : un gestionnaire gere au moins un centre de congres, et potentiellement plusieurs. Chaque centre de congres est rattache a un seul gestionnaire dans ce modele.
+- `Gestionnaire "1" --> "0..*" Reservation` : un gestionnaire peut ne creer aucune reservation ou en gerer plusieurs. Chaque reservation est associee a un seul gestionnaire.
+- `CentreDeCongres "1" *-- "1..*" ElementCentre` : un centre de congres contient obligatoirement un ou plusieurs elements. Chaque element appartient a un seul centre. La composition indique ici une relation forte de dependance structurelle.
+- `ElementCentre "1" *-- "0..1" Contrainte` : un element du centre peut n'avoir aucune contrainte ou au maximum une seule contrainte associee. Une contrainte est ici liee a un seul element dans ce modele.
+- `ElementCentre "1" *-- "0..*" Indisponibilite` : un element peut avoir zero, une ou plusieurs periodes d'indisponibilite. Chaque indisponibilite concerne un seul element.
+- `ElementCentre "1" *-- "1..*" Tarif` : chaque element doit avoir au moins un tarif, et peut en avoir plusieurs. Chaque tarif est associe a un seul element.
+- `CentreDeCongres "1" o-- "0..*" Materiel` : un centre peut disposer d'aucun materiel ou de plusieurs materiels. Chaque materiel est rattache a un centre dans cette modelisation. L'agregation montre une relation plus souple que la composition.
+- `CentreDeCongres "1" o-- "0..*" Prestation` : un centre peut proposer zero, une ou plusieurs prestations. Chaque prestation est rattachee a un centre dans le modele.
+- `Materiel "1" *-- "0..1" RegleLocation` : un materiel peut ne pas avoir de regle de location ou en avoir une seule.
+- `Prestation "1" *-- "0..1" RegleLocation` : une prestation peut egalement ne pas avoir de regle de location ou en avoir une seule.
+- `Evenement "1" --> "1" PersonneReferente` : chaque evenement a exactement une personne referente, et chaque association consideree ici relie un evenement a une seule personne referente.
+- `Reservation "1" --> "1" Evenement` : chaque reservation concerne exactement un evenement, et dans ce modele une reservation ne peut pas exister sans evenement associe.
+- `Reservation "1" --> "1..*" ElementCentre` : une reservation doit porter sur au moins un element du centre, et peut en concerner plusieurs.
+- `Reservation "1" --> "0..*" Materiel` : une reservation peut ne mobiliser aucun materiel ou plusieurs materiels selon le besoin.
+- `Reservation "1" --> "0..*" Prestation` : une reservation peut ne comporter aucune prestation ou en inclure plusieurs.
+- `Reservation "1" --> "1" StatutReservation` : chaque reservation possede exactement un statut a un instant donne, comme `EN_ATTENTE`, `CONFIRMEE` ou `ANNULEE`.
+- `Reservation "1" --> "0..1" Paiement` : une reservation peut ne pas encore avoir de paiement, ou etre liee a un paiement unique.
+- `Reservation "1" --> "1" Tarif` : chaque reservation applique exactement un tarif dans le modele retenu.
+
+#### Lecture fonctionnelle des cardinalites
+
+Ces cardinalites montrent plusieurs choix de conception importants :
+
+- un centre de congres ne peut pas etre vide dans le modele, puisqu'il doit contenir au moins un `ElementCentre` ;
+- une reservation ne peut pas etre abstraite : elle doit etre liee a un `Evenement`, a au moins un `ElementCentre`, a un `StatutReservation` et a un `Tarif` ;
+- le materiel, les prestations, les paiements et certaines contraintes sont optionnels selon le contexte ;
+- les relations de composition signalent des dependances fortes, alors que les agregations representent des associations plus souples.
+
+Autrement dit, les cardinalites permettent de distinguer :
+
+- ce qui est **obligatoire** dans le systeme ;
+- ce qui est **optionnel** ;
+- ce qui peut exister en **un seul exemplaire** ;
+- ce qui peut exister en **plusieurs occurrences**.
+
 ### Diagramme de cas d'utilisation
 
 <img src="./Diagramme de cas d'utilisation/Diagramme de cas d'utlisation.png" alt="Diagramme de cas d'utilisation" width="900" />

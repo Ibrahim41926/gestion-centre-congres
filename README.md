@@ -2,6 +2,8 @@
 
 ## Presentation du projet
 
+CE README NOUS SERT DE RAPPORT.
+
 Ce depot contient une application web de gestion d'un centre de congres. Elle permet d'administrer les principales ressources du centre, d'organiser les reservations, de suivre les evenements, de gerer les prestations et le materiel, puis de manipuler les donnees metier via une interface web et une API REST.
 
 L'application a ete generee avec l'outil **BESSER** dans le cadre d'un **projet academique realise en binome**. Le travail s'appuie sur une demarche de modelisation UML, suivie d'une generation assistee de l'architecture logicielle, puis d'une phase d'adaptation et d'exploitation de l'application produite.
